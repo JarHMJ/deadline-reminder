@@ -6,11 +6,11 @@
 配置文件参数：
 ```yaml
 feishu:
-  // 飞书机器人webhook
+  # 飞书机器人webhook
   baseUrl: "https://open.feishu.cn/open-apis/bot/v2/hook/xxxxxxxx"
-// 倒计时日期
+# 倒计时日期
 deadline: "2021-06-25"
-// 倒计时名称
+# 倒计时名称
 name: "纪念日"  
 ```
 

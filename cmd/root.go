@@ -68,10 +68,11 @@ func initConfig() {
 		// Find home directory.
 		home, err := os.UserHomeDir()
 		cobra.CheckErr(err)
+		log.Printf("home :%s", home)
 
 		// Search config in home directory with name ".deadline-reminder" (without extension).
 		viper.AddConfigPath(home)
-		viper.SetConfigType("yaml")
+		//viper.SetConfigType("yaml")
 		viper.SetConfigName(".deadline-reminder")
 	}
 
@@ -81,6 +82,8 @@ func initConfig() {
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
+	} else {
+		log.Fatalln(err)
 	}
 
 	// https://github.com/spf13/viper/issues/496
@@ -91,6 +94,7 @@ func initConfig() {
 	if err != nil {
 		log.Fatalf("Unmarshal config err: %s \n", err)
 	}
+	log.Printf("cfg :%+v", cfg)
 }
 
 func bindEnv() {
