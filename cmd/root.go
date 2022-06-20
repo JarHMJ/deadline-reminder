@@ -6,21 +6,25 @@ package cmd
 
 import (
 	"fmt"
-	"os"
-
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"log"
+	"os"
+	"time"
 )
 
 type feishuConfig struct {
-	baseUrl string `yaml:"baseUrl"`
+	BaseUrl string `mapstructure:"baseUrl"`
 }
 
 type config struct {
-	feishu feishuConfig
+	Feishu   feishuConfig `mapstructure:"feishu"`
+	Deadline *time.Time   `mapstructure:"deadline"`
+	Name     string       `mapstructure:"name"`
 }
 
 var cfgFile string
+var cfg config
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -71,10 +75,26 @@ func initConfig() {
 		viper.SetConfigName(".deadline-reminder")
 	}
 
+	bindEnv()
 	viper.AutomaticEnv() // read in environment variables that match
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
 	}
+
+	// https://github.com/spf13/viper/issues/496
+	deadline := viper.GetTime("deadline")
+	viper.Set("deadline", deadline)
+
+	err := viper.Unmarshal(&cfg)
+	if err != nil {
+		log.Fatalf("Unmarshal config err: %s \n", err)
+	}
+}
+
+func bindEnv() {
+	viper.BindEnv("deadline", "deadline")
+	viper.BindEnv("feishu.baseUrl", "feishu.baseUrl")
+	viper.BindEnv("name", "name")
 }
