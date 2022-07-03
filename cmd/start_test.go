@@ -17,7 +17,7 @@ func Test_calculateDays(t *testing.T) {
 	deadline1 := time.Date(2022, 5, 1, 12, 3, 41, 123, time.Local)
 
 	now2 := time.Date(2022, 5, 1, 12, 3, 41, 123, time.Local)
-	deadline2 := time.Date(2022, 5, 31, 12, 3, 41, 123, time.Local)
+	deadline2 := time.Date(2022, 6, 1, 12, 3, 41, 123, time.Local)
 
 	tests := []struct {
 		name string
@@ -26,7 +26,7 @@ func Test_calculateDays(t *testing.T) {
 	}{
 		{name: "one day", args: args{now: &now, deadline: &deadline}, want: 1},
 		{name: "zero day", args: args{now: &now1, deadline: &deadline1}, want: 0},
-		{name: "30 day", args: args{now: &now2, deadline: &deadline2}, want: 30},
+		{name: "31 day", args: args{now: &now2, deadline: &deadline2}, want: 30},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
