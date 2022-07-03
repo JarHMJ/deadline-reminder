@@ -19,7 +19,7 @@ import (
 // startCmd represents the start command
 var startCmd = &cobra.Command{
 	Use:   "start",
-	Short: "A brief description of your command",
+	Short: "start run reminder",
 	Run: func(cmd *cobra.Command, args []string) {
 		checkConfig()
 		feishuClient := feishu.NewFeishu(cfg.Feishu.BaseUrl)
